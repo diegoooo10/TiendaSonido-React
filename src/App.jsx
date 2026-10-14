@@ -2,8 +2,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
-import Navbar from './components/Navbar'
+import BarraNavegacion from './components/Navbar'
 import Productos from './pages/Productos'
+import DetalleProducto from "./pages/DetalleProducto";
 
 function Inicio() {
   return <h1 className="text-center mt-5">Bienvenido a Sonido Vivo</h1>
@@ -36,13 +37,13 @@ function Login() {
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
+      <BarraNavegacion />
 
       <main className="container py-4">
         <Routes>
           <Route path="/" element={<h1 className="text-center mt-5">Bienvenido a Sonido Vivo</h1>} />
           <Route path="/productos" element={<Productos />} />
-          <Route path="/productos/:codigo" element={<div>Detalle de producto</div>} />
+          <Route path="/productos/:codigo" element={<DetalleProducto />} />
           <Route path="/categorias" element={<Categorias />} />
           <Route path="/ofertas" element={<Ofertas />} />
           <Route path="/blog" element={<Blog />} />

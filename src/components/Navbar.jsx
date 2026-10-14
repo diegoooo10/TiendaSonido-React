@@ -1,8 +1,11 @@
 
-import { Container, Nav, Navbar as BootstrapNavbar } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Navbar as BootstrapNavbar, Nav, Container, Badge } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { useCarrito } from "../context/CarritoContext";
 
-function Navbar() {
+function BarraNavegacion() {
+  const { totalUnidades } = useCarrito();
+
   return (
     <BootstrapNavbar bg="dark" variant="dark" expand="lg">
       <Container>
@@ -29,7 +32,11 @@ function Navbar() {
           <Nav>
             <Nav.Link as={Link} to="/carrito">
               Carrito
+              <Badge bg="danger" className="ms-1">
+                {totalUnidades}
+              </Badge>
             </Nav.Link>
+
             <Nav.Link as={Link} to="/login">
               Iniciar sesión
             </Nav.Link>
@@ -37,7 +44,7 @@ function Navbar() {
         </BootstrapNavbar.Collapse>
       </Container>
     </BootstrapNavbar>
-  )
+  );
 }
 
-export default Navbar
+export default BarraNavegacion;
