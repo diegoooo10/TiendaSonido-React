@@ -6,14 +6,13 @@ import BarraNavegacion from './components/Navbar'
 import Productos from './pages/Productos'
 import DetalleProducto from "./pages/DetalleProducto";
 import Carrito from "./pages/Carrito";
+import Categorias from "./pages/Categorias";
+import DetalleCategoria from "./pages/DetalleCategoria";
 
 function Inicio() {
   return <h1 className="text-center mt-5">Bienvenido a Sonido Vivo</h1>
 }
 
-function Categorias() {
-  return <h1 className="text-center mt-5">Categorías</h1>
-}
 
 function Ofertas() {
   return <h1 className="text-center mt-5">Ofertas</h1>
@@ -42,7 +41,8 @@ function App() {
           <Route path="/" element={<h1 className="text-center mt-5">Bienvenido a Sonido Vivo</h1>} />
           <Route path="/productos" element={<Productos />} />
           <Route path="/productos/:codigo" element={<DetalleProducto />} />
-          <Route path="/categorias" element={<Categorias />} />
+          <Route path="/categorias" element={<Categorias />} /> 
+          <Route path="/categorias/:categoria" element={<DetalleCategoria />} />
           <Route path="/ofertas" element={<Ofertas />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/contacto" element={<Contacto />} />
