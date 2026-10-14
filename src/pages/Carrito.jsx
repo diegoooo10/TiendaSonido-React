@@ -53,7 +53,6 @@ function Carrito() {
                     <Button
                       size="sm"
                       variant="outline-secondary"
-                      disabled={producto.cantidad <= 1}
                       onClick={() =>
                         actualizarCantidad(
                           producto.codigo,
