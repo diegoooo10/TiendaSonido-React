@@ -9,6 +9,7 @@ import Carrito from "./pages/Carrito";
 import Categorias from "./pages/Categorias";
 import DetalleCategoria from "./pages/DetalleCategoria";
 import Ofertas from "./pages/Ofertas";
+import Header from "./components/Header";
 
 function Inicio() {
   return <h1 className="text-center mt-5">Bienvenido a Sonido Vivo</h1>
@@ -33,6 +34,7 @@ function Login() {
 function App() {
   return (
     <BrowserRouter>
+      <Header />
       <BarraNavegacion />
 
       <main className="container py-4">

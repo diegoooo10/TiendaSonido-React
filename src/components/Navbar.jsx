@@ -24,14 +24,13 @@ function BarraNavegacion() {
             <Nav.Link as={Link} to="/">Inicio</Nav.Link>
             <Nav.Link as={Link} to="/productos">Productos</Nav.Link>
             <Nav.Link as={Link} to="/categorias">Categorías</Nav.Link>
-            <Nav.Link as={Link} to="/ofertas">Ofertas</Nav.Link>
             <Nav.Link as={Link} to="/blog">Blog</Nav.Link>
             <Nav.Link as={Link} to="/contacto">Contacto</Nav.Link>
           </Nav>
 
           <Nav>
             <Nav.Link as={Link} to="/carrito">
-              Carrito
+              🛒Carrito
               <Badge bg="danger" className="ms-1">
                 {totalUnidades}
               </Badge>
