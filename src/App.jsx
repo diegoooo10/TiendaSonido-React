@@ -5,6 +5,7 @@ import './App.css'
 import BarraNavegacion from './components/Navbar'
 import Productos from './pages/Productos'
 import DetalleProducto from "./pages/DetalleProducto";
+import Carrito from "./pages/Carrito";
 
 function Inicio() {
   return <h1 className="text-center mt-5">Bienvenido a Sonido Vivo</h1>
@@ -26,9 +27,6 @@ function Contacto() {
   return <h1 className="text-center mt-5">Contacto</h1>
 }
 
-function Carrito() {
-  return <h1 className="text-center mt-5">Carrito de compras</h1>
-}
 
 function Login() {
   return <h1 className="text-center mt-5">Iniciar sesión</h1>
