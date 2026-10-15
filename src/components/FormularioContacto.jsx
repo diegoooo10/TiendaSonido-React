@@ -1,93 +1,131 @@
-import { Form, Button } from "react-bootstrap"
-import { useState } from "react"
 
-function FormularioContacto(){
+import { Form, Button } from 'react-bootstrap'
+import { useState } from 'react'
 
-    const [nombre, setNombre] = useState('');
-    const [email, setEmail] = useState('');
-    const [comentario, setComentario] = useState('');
+import {
+  validarFormularioContacto
+} from '../validaciones/validacionesContacto'
 
-    const [errorNombre, setErrorNombre] = useState('');
-    const [errorEmail, setErrorEmail] = useState('');
-    const [errorComentario, setErrorComentario] = useState('');
-    const [mensajeEnviado, setMensajeEnviado] = useState('');
+function FormularioContacto() {
+  const [nombre, setNombre] = useState('')
+  const [email, setEmail] = useState('')
+  const [comentario, setComentario] = useState('')
 
-    function validarFormulario(event) {
-        event.preventDefault();
+  const [errores, setErrores] = useState({})
+  const [mensajeEnviado, setMensajeEnviado] = useState('')
 
-        let todoEsValido = true;
+  function validarFormulario(evento) {
+    evento.preventDefault()
 
-        setErrorNombre('');
-        setErrorEmail('');
-        setErrorComentario('');
-        setMensajeEnviado('');
+    setMensajeEnviado('')
 
-        const formatoCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        if (nombre.trim() === '') {
-            setErrorNombre('Debe ingresar un nombre');
-            todoEsValido = false;
-        }
-
-        if (email.trim() === '') {
-            setErrorEmail('Debe ingresar un correo');
-            todoEsValido = false;
-        } else if (!formatoCorreo.test(email.trim())) {
-            setErrorEmail('Debe ingresar un correo válido');
-            todoEsValido = false;
-        }
-
-        if (comentario.trim() === '') {
-            setErrorComentario('Debe ingresar un comentario');
-            todoEsValido = false;
-        }
-
-        if (todoEsValido) {
-            setMensajeEnviado('Mensaje validado correctamente');
-
-            setNombre('');
-            setEmail('');
-            setComentario('');
-        }
+    const formulario = {
+      nombre,
+      email,
+      comentario
     }
 
-    return(
-        <div className="formulario-contacto">
-            <h2>Envíanos un mensaje</h2>
+    const erroresValidacion = validarFormularioContacto(formulario)
 
-            <p>Completa el siguiente formulario y nos
-                pondremos en contacto contigo
-            </p>
+    setErrores(erroresValidacion)
 
-            <Form noValidate onSubmit={validarFormulario}>
-                <Form.Group className="mb-3" controlId="nombre">
-                    <Form.Label>Nombre</Form.Label>
-                    <Form.Control type="text" name="nombre" maxLength={100} placeholder="Ingresa tu nombre" value={nombre} onChange={(event) => setNombre(event.target.value)}/>
-                    <p className="text-danger">{errorNombre}</p>
-                </Form.Group>
+    if (Object.keys(erroresValidacion).length > 0) {
+      return
+    }
 
-                <Form.Group className="mb-3" controlId="email">
-                    <Form.Label>Correo electrónico</Form.Label>
-                    <Form.Control type="email" name="email" maxLength={100} placeholder="ejemplo@gmail.com" value={email} onChange={(event) => setEmail(event.target.value)}/>
-                    <p className="text-danger">{errorEmail}</p>
-                </Form.Group>
+    setMensajeEnviado('Mensaje validado correctamente')
 
-                <Form.Group className="mb-3" controlId="comentario">
-                    <Form.Label>Comentario</Form.Label>
-                    <Form.Control as="textarea" name="comentario" rows={6} maxLength={500} placeholder="Escribe tu consulta..." value={comentario} onChange={(event) => setComentario(event.target.value)}/>
-                    <p className="text-danger">{errorComentario}</p>
-                    <Form.Text muted>Máximo 500 caracteres.</Form.Text>
+    setNombre('')
+    setEmail('')
+    setComentario('')
+    setErrores({})
+  }
 
-                </Form.Group>
-                    <Button variant="primary" type="submit" className="boton-enviar">
-                    Enviar mensaje
-                    </Button>
-                    <p className="text-success">{mensajeEnviado}</p>
-                    
-                </Form>
+  return (
+    <div className="formulario-contacto">
+      <h2>Envíanos un mensaje</h2>
 
-        </div>
-    )
+      <p>
+        Completa el siguiente formulario y nos
+        pondremos en contacto contigo
+      </p>
+
+      <Form noValidate onSubmit={validarFormulario}>
+        <Form.Group className="mb-3" controlId="nombre">
+          <Form.Label>Nombre</Form.Label>
+
+          <Form.Control
+            type="text"
+            name="nombre"
+            maxLength={100}
+            placeholder="Ingresa tu nombre"
+            value={nombre}
+            onChange={(evento) => setNombre(evento.target.value)}
+            isInvalid={Boolean(errores.nombre)}
+          />
+
+          <Form.Control.Feedback type="invalid">
+            {errores.nombre}
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="email">
+          <Form.Label>Correo electrónico</Form.Label>
+
+          <Form.Control
+            type="email"
+            name="email"
+            maxLength={100}
+            placeholder="ejemplo@gmail.com"
+            value={email}
+            onChange={(evento) => setEmail(evento.target.value)}
+            isInvalid={Boolean(errores.email)}
+          />
+
+          <Form.Control.Feedback type="invalid">
+            {errores.email}
+          </Form.Control.Feedback>
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="comentario">
+          <Form.Label>Comentario</Form.Label>
+
+          <Form.Control
+            as="textarea"
+            name="comentario"
+            rows={6}
+            maxLength={500}
+            placeholder="Escribe tu consulta..."
+            value={comentario}
+            onChange={(evento) => setComentario(evento.target.value)}
+            isInvalid={Boolean(errores.comentario)}
+          />
+
+          <Form.Control.Feedback type="invalid">
+            {errores.comentario}
+          </Form.Control.Feedback>
+
+          <Form.Text muted>
+            Máximo 500 caracteres.
+          </Form.Text>
+        </Form.Group>
+
+        <Button
+          variant="primary"
+          type="submit"
+          className="boton-enviar"
+        >
+          Enviar mensaje
+        </Button>
+
+        {mensajeEnviado && (
+          <p className="text-success mt-3">
+            {mensajeEnviado}
+          </p>
+        )}
+      </Form>
+    </div>
+  )
 }
 
 export default FormularioContacto
