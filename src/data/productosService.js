@@ -1,6 +1,7 @@
 
 import { productos as productosIniciales } from './productos'
 
+
 const CLAVE_PRODUCTOS = 'productosSonidoVivo'
 
 // Cargar los productos guardados o usar los iniciales

@@ -16,6 +16,7 @@ import Nosotros from './pages/Nosotros'
 import Contacto from './pages/Contacto'
 import Blog from './pages/Blog'
 import DetalleBlog from './pages/DetalleBlog'
+import AdminProductos from './pages/AdminProductos'
 
 function Login() {
   return <h1 className="text-center mt-5">Iniciar sesión</h1>
@@ -42,6 +43,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path= "/nosotros" element={<Nosotros />} />          
           <Route path="*" element={<h1 className="text-center">Página no encontrada</h1>} />
+          <Route path="/admin-productos" element={<AdminProductos />} />
         </Routes>
       </main>
 

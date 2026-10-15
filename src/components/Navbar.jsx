@@ -40,6 +40,9 @@ function BarraNavegacion() {
             <Nav.Link as={Link} to="/login">
               Iniciar sesión
             </Nav.Link>
+            <Nav.Link as={Link} to="/admin-productos">
+              Administración
+            </Nav.Link>
           </Nav>
         </BootstrapNavbar.Collapse>
       </Container>

@@ -1,9 +1,16 @@
 
+import { useEffect, useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import ProductoCard from '../components/ProductoCard'
-import { productos } from '../data/productos'
+import { obtenerProductos } from '../data/productosService'
 
 function Productos() {
+  const [productos, setProductos] = useState([])
+
+  useEffect(() => {
+    setProductos(obtenerProductos())
+  }, [])
+
   return (
     <Container className="py-4">
       <h1 className="mb-4">Nuestros productos</h1>

@@ -1,16 +1,14 @@
 
-import { useParams, Link } from "react-router-dom";
-import { Container, Row, Col, Card, Button, Alert } from "react-bootstrap";
-import { productos } from "../data/productos";
-import { useCarrito } from "../context/CarritoContext";
+import { useParams, Link } from 'react-router-dom'
+import { Container, Row, Col, Card, Button, Alert } from 'react-bootstrap'
+import { obtenerProductoPorCodigo } from '../data/productosService'
+import { useCarrito } from '../context/CarritoContext'
 
 function DetalleProducto() {
-  const { codigo } = useParams();
-  const { agregarAlCarrito } = useCarrito();
+  const { codigo } = useParams()
+  const { agregarAlCarrito } = useCarrito()
 
-  const producto = productos.find(
-    (item) => String(item.codigo) === codigo
-  );
+  const producto = obtenerProductoPorCodigo(codigo)
 
   if (!producto) {
     return (
@@ -20,11 +18,11 @@ function DetalleProducto() {
         </Alert>
         <Link to="/productos">Volver al catalogo</Link>
       </Container>
-    );
+    )
   }
 
   function manejarAgregarAlCarrito() {
-    agregarAlCarrito(producto);
+    agregarAlCarrito(producto)
   }
 
   return (
@@ -34,9 +32,11 @@ function DetalleProducto() {
           <Card>
             <Card.Img
               variant="top"
-              src={producto.imagen}
+              src={producto.imagen?.startsWith('img/')
+                ? `/${producto.imagen}`
+                : producto.imagen}
               alt={producto.nombre}
-              style={{ height: "350px", objectFit: "contain" }}
+              style={{ height: '350px', objectFit: 'contain' }}
             />
           </Card>
         </Col>
@@ -44,26 +44,15 @@ function DetalleProducto() {
         <Col md={6}>
           <h1>{producto.nombre}</h1>
 
-          <p>
-            <strong>Codigo:</strong> {producto.codigo}
-          </p>
-
-          <p>
-            <strong>Categoria:</strong> {producto.categoria}
-          </p>
-
-          <p>
-            <strong>Marca:</strong> {producto.marca}
-          </p>
-
-          <p>
-            <strong>Modelo:</strong> {producto.modelo}
-          </p>
+          <p><strong>Codigo:</strong> {producto.codigo}</p>
+          <p><strong>Categoria:</strong> {producto.categoria}</p>
+          {producto.marca && <p><strong>Marca:</strong> {producto.marca}</p>}
+          {producto.modelo && <p><strong>Modelo:</strong> {producto.modelo}</p>}
 
           <p>{producto.descripcion}</p>
 
           <h2 className="text-primary">
-            ${producto.precio.toLocaleString("es-CL")}
+            ${Number(producto.precio).toLocaleString('es-CL')}
           </h2>
 
           <p>
@@ -75,9 +64,7 @@ function DetalleProducto() {
             onClick={manejarAgregarAlCarrito}
             disabled={producto.stock <= 0}
           >
-            {producto.stock > 0
-              ? "Agregar al carrito"
-              : "Sin stock"}
+            {producto.stock > 0 ? 'Agregar al carrito' : 'Sin stock'}
           </Button>
 
           <div className="mt-3">
@@ -86,7 +73,7 @@ function DetalleProducto() {
         </Col>
       </Row>
     </Container>
-  );
+  )
 }
 
-export default DetalleProducto;
+export default DetalleProducto

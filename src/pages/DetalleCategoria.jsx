@@ -1,17 +1,18 @@
 
-import { useParams, Link } from "react-router-dom";
-import { Container, Row, Col, Alert, Button } from "react-bootstrap";
-import { productos } from "../data/productos";
-import ProductoCard from "../components/ProductoCard";
+import { useParams, Link } from 'react-router-dom'
+import { Container, Row, Col, Alert, Button } from 'react-bootstrap'
+import { obtenerProductos } from '../data/productosService'
+import ProductoCard from '../components/ProductoCard'
 
 function DetalleCategoria() {
-  const { categoria } = useParams();
+  const { categoria } = useParams()
 
-  const nombreCategoria = decodeURIComponent(categoria);
+  const nombreCategoria = decodeURIComponent(categoria)
+  const productos = obtenerProductos()
 
   const productosFiltrados = productos.filter(
     (producto) => producto.categoria === nombreCategoria
-  );
+  )
 
   return (
     <Container className="py-4">
@@ -40,7 +41,7 @@ function DetalleCategoria() {
         Volver a categorias
       </Button>
     </Container>
-  );
+  )
 }
 
-export default DetalleCategoria;
+export default DetalleCategoria

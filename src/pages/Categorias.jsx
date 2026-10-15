@@ -1,12 +1,14 @@
 
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { productos } from "../data/productos";
+import { Container, Row, Col, Card, Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import { obtenerProductos } from '../data/productosService'
 
 function Categorias() {
+  const productos = obtenerProductos()
+
   const categorias = [
     ...new Set(productos.map((producto) => producto.categoria))
-  ].sort();
+  ].filter(Boolean).sort()
 
   return (
     <Container className="py-4">
@@ -16,7 +18,7 @@ function Categorias() {
         {categorias.map((categoria) => {
           const cantidad = productos.filter(
             (producto) => producto.categoria === categoria
-          ).length;
+          ).length
 
           return (
             <Col key={categoria} xs={12} md={6} lg={4}>
@@ -38,11 +40,11 @@ function Categorias() {
                 </Card.Body>
               </Card>
             </Col>
-          );
+          )
         })}
       </Row>
     </Container>
-  );
+  )
 }
 
-export default Categorias;
+export default Categorias
