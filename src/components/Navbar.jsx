@@ -56,7 +56,7 @@ function BarraNavegacion() {
               className={enlaceActivo}
             >
               🛒 Carrito
-              <Badge bg="danger" className="ms-1">
+              <Badge bg="primary" className="ms-1">
                 {totalUnidades}
               </Badge>
             </Nav.Link>
