@@ -10,13 +10,8 @@ import Categorias from "./pages/Categorias";
 import DetalleCategoria from "./pages/DetalleCategoria";
 import Ofertas from "./pages/Ofertas";
 import Header from "./components/Header";
-
-function Inicio() {
-  return <h1 className="text-center mt-5">Bienvenido a Sonido Vivo</h1>
-}
-
-
-
+import Inicio from './pages/Inicio'
+import Footer from './components/Footer'
 
 function Blog() {
   return <h1 className="text-center mt-5">Blog</h1>
@@ -39,7 +34,7 @@ function App() {
 
       <main className="container py-4">
         <Routes>
-          <Route path="/" element={<h1 className="text-center mt-5">Bienvenido a Sonido Vivo</h1>} />
+          <Route path="/" element={<Inicio />} />
           <Route path="/productos" element={<Productos />} />
           <Route path="/productos/:codigo" element={<DetalleProducto />} />
           <Route path="/categorias" element={<Categorias />} /> 
@@ -52,6 +47,7 @@ function App() {
           <Route path="*" element={<h1 className="text-center">Página no encontrada</h1>} />
         </Routes>
       </main>
+       <Footer />
     </BrowserRouter>
   )
 }
