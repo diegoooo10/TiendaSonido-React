@@ -31,8 +31,8 @@ function Inicio() {
     <>
       <section className="hero">
         <Container className="py-5">
-          <Row className="align-items-center g-4">
-            <Col md={7}>
+          <Row className="text-center g-4">
+            <Col xs={12}>
               <h1>Bienvenido a Sonido Vivo</h1>
               <p>
                 Somos una tienda especializada en instrumentos
@@ -40,7 +40,7 @@ function Inicio() {
               </p>
             </Col>
 
-            <Col md={5}>
+            <Col xs={12}>
               <img
                 src="/img/tienda.png"
                 alt="Interior de la tienda Sonido Vivo"

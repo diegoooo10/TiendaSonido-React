@@ -90,7 +90,7 @@
 
 
 .hero {
-  background-color: #f5f5f5;
+  background-color: #ffffff;
 }
 
 .hero h1 {
@@ -106,8 +106,9 @@
 .hero-imagen {
   display: block;
   width: 100%;
-  max-height: 340px;
-  object-fit: contain;
+  max-width: 750px;
+  height: auto;
+  margin: 0 auto;
   border-radius: 8px;
 }
 
@@ -153,7 +154,7 @@
   background-color: #212529;
   color: #ffffff;
   padding: 24px 0;
-  margin-top: 40px;
+  margin-top: 0px;
 }
 
 .footer-sonido-vivo p {
@@ -162,4 +163,61 @@
 
 .footer-sonido-vivo p:last-child {
   margin-bottom: 0;
+}
+
+.productos-destacados {
+  background-color: #f5f6f8;
+}
+
+.contacto {
+  background-color: #f5f6f8;
+}
+
+.contacto-info,
+.formulario-contacto {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  height: 100%;
+}
+
+.contacto-info h2,
+.formulario-contacto h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.dato-contacto {
+  margin-top: 25px;
+}
+
+.dato-contacto h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.dato-contacto p {
+  margin-bottom: 0;
+  color: #555555;
+  line-height: 1.6;
+}
+
+.formulario-contacto .form-control {
+  padding: 12px;
+}
+
+.boton-enviar {
+  padding: 12px 24px;
+  font-weight: 600;
+}
+
+.imagen-detalle-blog {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin: 0 auto;
 }

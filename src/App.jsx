@@ -12,15 +12,10 @@ import Ofertas from "./pages/Ofertas";
 import Header from "./components/Header";
 import Inicio from './pages/Inicio'
 import Footer from './components/Footer'
-
-function Blog() {
-  return <h1 className="text-center mt-5">Blog</h1>
-}
-
-function Contacto() {
-  return <h1 className="text-center mt-5">Contacto</h1>
-}
-
+import Nosotros from './pages/Nosotros'
+import Contacto from './pages/Contacto'
+import Blog from './pages/Blog'
+import DetalleBlog from './pages/DetalleBlog'
 
 function Login() {
   return <h1 className="text-center mt-5">Iniciar sesión</h1>
@@ -32,7 +27,7 @@ function App() {
       <Header />
       <BarraNavegacion />
 
-      <main className="container py-4">
+      <main>
         <Routes>
           <Route path="/" element={<Inicio />} />
           <Route path="/productos" element={<Productos />} />
@@ -41,12 +36,15 @@ function App() {
           <Route path="/categorias/:categoria" element={<DetalleCategoria />} />
           <Route path="/ofertas" element={<Ofertas />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:articulo" element={<DetalleBlog />} />
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/carrito" element={<Carrito />} />
           <Route path="/login" element={<Login />} />
+          <Route path= "/nosotros" element={<Nosotros />} />          
           <Route path="*" element={<h1 className="text-center">Página no encontrada</h1>} />
         </Routes>
       </main>
+
        <Footer />
     </BrowserRouter>
   )
