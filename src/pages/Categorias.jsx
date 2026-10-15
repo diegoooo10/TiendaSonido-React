@@ -1,4 +1,3 @@
-
 import { Container, Row, Col, Card, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { obtenerProductos } from '../data/productosService'
@@ -11,39 +10,55 @@ function Categorias() {
   ].filter(Boolean).sort()
 
   return (
-    <Container className="py-4">
-      <h1 className="mb-4">Categorias</h1>
+    <section className="pagina-categorias">
+      <Container className="contenedor-categorias">
+        <div className="encabezado-categorias">
+          <p className="subtitulo-seccion">
+            EXPLORA NUESTROS PRODUCTOS
+          </p>
 
-      <Row className="g-3">
-        {categorias.map((categoria) => {
-          const cantidad = productos.filter(
-            (producto) => producto.categoria === categoria
-          ).length
+          <h1>Categorías</h1>
 
-          return (
-            <Col key={categoria} xs={12} md={6} lg={4}>
-              <Card className="h-100">
-                <Card.Body>
-                  <Card.Title>{categoria}</Card.Title>
+          <p className="descripcion-categorias">
+            Encuentra los instrumentos y equipos ideales para tu sonido.
+          </p>
 
-                  <Card.Text>
-                    Productos disponibles: {cantidad}
-                  </Card.Text>
+          <div className="linea-decorativa" />
+        </div>
 
-                  <Button
-                    as={Link}
-                    to={`/categorias/${encodeURIComponent(categoria)}`}
-                    variant="outline-primary"
-                  >
-                    Ver productos
-                  </Button>
-                </Card.Body>
-              </Card>
-            </Col>
-          )
-        })}
-      </Row>
-    </Container>
+        <Row className="g-3">
+          {categorias.map((categoria) => {
+            const cantidad = productos.filter(
+              (producto) => producto.categoria === categoria
+            ).length
+
+            return (
+              <Col key={categoria} xs={12} sm={6} lg={4}>
+                <Card className="tarjeta-categoria h-100">
+                  <Card.Body>
+                    <div className="categoria-indicador" />
+
+                    <Card.Title>{categoria}</Card.Title>
+
+                    <Card.Text>
+                      Productos disponibles: {cantidad}
+                    </Card.Text>
+
+                    <Button
+                      as={Link}
+                      to={`/categorias/${encodeURIComponent(categoria)}`}
+                      variant="primary"
+                    >
+                      Ver productos
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            )
+          })}
+        </Row>
+      </Container>
+    </section>
   )
 }
 

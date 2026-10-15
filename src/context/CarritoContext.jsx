@@ -1,17 +1,50 @@
-
 import {
-  createContext,useContext,useEffect,useRef,useState} from "react";
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 
 const CarritoContext = createContext(null);
 
 const CLAVE_CARRITO = "carritoSonidoVivo";
 const MAXIMO_CARRITO = 20;
+const CODIGO_PRODUCTO_OFERTA = "MI001";
+const PRECIO_OFERTA = 129990;
+
+function obtenerPrecioFinal(producto) {
+  if (producto.codigo === CODIGO_PRODUCTO_OFERTA) {
+    return PRECIO_OFERTA;
+  }
+
+  return producto.precio;
+}
+
+function normalizarCarrito(carritoGuardado) {
+  return carritoGuardado.map((producto) => ({
+    ...producto,
+    precioOriginal: producto.precioOriginal ?? producto.precio,
+    precio: obtenerPrecioFinal(producto)
+  }));
+}
 
 export function CarritoProvider({ children }) {
   const [carrito, setCarrito] = useState(() => {
     try {
       const guardado = localStorage.getItem(CLAVE_CARRITO);
-      return guardado ? JSON.parse(guardado) : [];
+
+      if (!guardado) {
+        return [];
+      }
+
+      const productosGuardados = JSON.parse(guardado);
+
+      if (!Array.isArray(productosGuardados)) {
+        return [];
+      }
+
+      return normalizarCarrito(productosGuardados);
     } catch {
       return [];
     }
@@ -54,6 +87,7 @@ export function CarritoProvider({ children }) {
       );
     } catch (error) {
       console.error("No se pudo guardar el carrito:", error);
+
       mostrarNotificacion(
         "No se pudo guardar el carrito.",
         true
@@ -89,7 +123,7 @@ export function CarritoProvider({ children }) {
     }
 
     const existente = carrito.find(
-      item => item.codigo === producto.codigo
+      (item) => item.codigo === producto.codigo
     );
 
     const cantidadActual = existente
@@ -104,18 +138,29 @@ export function CarritoProvider({ children }) {
       return false;
     }
 
+    const precioFinal = obtenerPrecioFinal(producto);
+
     let nuevoCarrito;
 
     if (existente) {
-      nuevoCarrito = carrito.map(item =>
+      nuevoCarrito = carrito.map((item) =>
         item.codigo === producto.codigo
-          ? { ...item, cantidad: item.cantidad + 1 }
+          ? {
+              ...item,
+              precio: precioFinal,
+              cantidad: item.cantidad + 1
+            }
           : item
       );
     } else {
       nuevoCarrito = [
         ...carrito,
-        { ...producto, cantidad: 1 }
+        {
+          ...producto,
+          precioOriginal: producto.precio,
+          precio: precioFinal,
+          cantidad: 1
+        }
       ];
     }
 
@@ -127,7 +172,7 @@ export function CarritoProvider({ children }) {
 
   function actualizarCantidad(codigo, nuevaCantidad) {
     const producto = carrito.find(
-      item => item.codigo === codigo
+      (item) => item.codigo === codigo
     );
 
     if (!producto) {
@@ -157,9 +202,12 @@ export function CarritoProvider({ children }) {
       return false;
     }
 
-    const nuevoCarrito = carrito.map(item =>
+    const nuevoCarrito = carrito.map((item) =>
       item.codigo === codigo
-        ? { ...item, cantidad: nuevaCantidad }
+        ? {
+            ...item,
+            cantidad: nuevaCantidad
+          }
         : item
     );
 
@@ -169,7 +217,7 @@ export function CarritoProvider({ children }) {
 
   function eliminarDelCarrito(codigo) {
     const nuevoCarrito = carrito.filter(
-      item => item.codigo !== codigo
+      (item) => item.codigo !== codigo
     );
 
     guardarCarrito(nuevoCarrito);

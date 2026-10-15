@@ -1,4 +1,3 @@
-
 import { useParams, Link } from 'react-router-dom'
 import { Container, Row, Col, Alert, Button } from 'react-bootstrap'
 import { obtenerProductos } from '../data/productosService'
@@ -15,32 +14,52 @@ function DetalleCategoria() {
   )
 
   return (
-    <Container className="py-4">
-      <h1 className="mb-4">{nombreCategoria}</h1>
+    <section className="detalle-categoria">
+      <Container className="contenedor-detalle-categoria">
+        <div className="encabezado-catalogo">
+          <p className="subtitulo-seccion">
+            EXPLORA NUESTRA SELECCIÓN
+          </p>
 
-      {productosFiltrados.length === 0 ? (
-        <Alert variant="warning">
-          No encontramos productos en esta categoria.
-        </Alert>
-      ) : (
-        <Row className="g-4">
-          {productosFiltrados.map((producto) => (
-            <Col key={producto.codigo} xs={12} md={6} lg={4}>
-              <ProductoCard producto={producto} />
-            </Col>
-          ))}
-        </Row>
-      )}
+          <h1>{nombreCategoria}</h1>
 
-      <Button
-        as={Link}
-        to="/categorias"
-        variant="outline-secondary"
-        className="mt-4"
-      >
-        Volver a categorias
-      </Button>
-    </Container>
+          <p className="descripcion-seccion">
+            Descubre nuestros productos de {nombreCategoria.toLowerCase()}.
+          </p>
+
+          <div className="linea-decorativa" />
+        </div>
+
+        {productosFiltrados.length === 0 ? (
+          <Alert variant="warning">
+            No encontramos productos en esta categoría.
+          </Alert>
+        ) : (
+          <Row className="g-3">
+            {productosFiltrados.map((producto) => (
+              <Col
+                key={producto.codigo}
+                xs={12}
+                sm={6}
+                lg={4}
+              >
+                <ProductoCard producto={producto} />
+              </Col>
+            ))}
+          </Row>
+        )}
+
+        <div className="volver-categorias">
+          <Button
+            as={Link}
+            to="/categorias"
+            variant="outline-secondary"
+          >
+            ← Volver a categorías
+          </Button>
+        </div>
+      </Container>
+    </section>
   )
 }
 

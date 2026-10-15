@@ -1,6 +1,5 @@
-
 import { useParams, Link } from 'react-router-dom'
-import { Container, Row, Col, Card, Button, Alert } from 'react-bootstrap'
+import { Container, Row, Col, Button, Alert } from 'react-bootstrap'
 import { obtenerProductoPorCodigo } from '../data/productosService'
 import { useCarrito } from '../context/CarritoContext'
 
@@ -16,63 +15,106 @@ function DetalleProducto() {
         <Alert variant="warning">
           El producto que buscas no existe.
         </Alert>
-        <Link to="/productos">Volver al catalogo</Link>
+        <Link to="/productos">Volver a productos</Link>
       </Container>
     )
   }
+
+  const esOferta = producto.codigo === 'MI001'
+  const precioMostrar = esOferta ? 129990 : producto.precio
 
   function manejarAgregarAlCarrito() {
     agregarAlCarrito(producto)
   }
 
   return (
-    <Container className="py-4">
-      <Row className="g-4">
-        <Col md={6}>
-          <Card>
-            <Card.Img
-              variant="top"
-              src={producto.imagen?.startsWith('img/')
-                ? `/${producto.imagen}`
-                : producto.imagen}
-              alt={producto.nombre}
-              style={{ height: '350px', objectFit: 'contain' }}
-            />
-          </Card>
-        </Col>
+    <section className="detalle-producto">
+      <Container className="contenedor-detalle">
+        <Row className="align-items-center g-4 g-lg-5">
+          <Col xs={12} md={5}>
+            <div className="detalle-imagen-contenedor">
+              <img
+                src={`/${producto.imagen.replace(/^\/+/, '')}`}
+                alt={producto.nombre}
+                className="detalle-imagen"
+              />
+            </div>
+          </Col>
 
-        <Col md={6}>
-          <h1>{producto.nombre}</h1>
+          <Col xs={12} md={7}>
+            <div className="detalle-informacion">
+              <p className="detalle-categoria">
+                {producto.categoria}
+              </p>
 
-          <p><strong>Codigo:</strong> {producto.codigo}</p>
-          <p><strong>Categoria:</strong> {producto.categoria}</p>
-          {producto.marca && <p><strong>Marca:</strong> {producto.marca}</p>}
-          {producto.modelo && <p><strong>Modelo:</strong> {producto.modelo}</p>}
+              <h1 className="detalle-titulo">
+                {producto.nombre}
+              </h1>
 
-          <p>{producto.descripcion}</p>
+              <p className="detalle-descripcion">
+                {producto.descripcion}
+              </p>
 
-          <h2 className="text-primary">
-            ${Number(producto.precio).toLocaleString('es-CL')}
-          </h2>
+              <hr className="detalle-separador" />
 
-          <p>
-            <strong>Stock disponible:</strong> {producto.stock}
-          </p>
+              {producto.marca && (
+                <p className="detalle-dato">
+                  <strong>Marca:</strong> {producto.marca}
+                </p>
+              )}
 
-          <Button
-            variant="primary"
-            onClick={manejarAgregarAlCarrito}
-            disabled={producto.stock <= 0}
-          >
-            {producto.stock > 0 ? 'Agregar al carrito' : 'Sin stock'}
-          </Button>
+              {producto.modelo && (
+                <p className="detalle-dato">
+                  <strong>Modelo:</strong> {producto.modelo}
+                </p>
+              )}
 
-          <div className="mt-3">
-            <Link to="/productos">Volver al catalogo</Link>
-          </div>
-        </Col>
-      </Row>
-    </Container>
+              <p className="detalle-dato">
+                <strong>Stock disponible:</strong> {producto.stock}
+              </p>
+
+              <div className="detalle-precio-contenedor">
+                {esOferta && (
+                  <p className="detalle-precio-anterior">
+                    Antes: ${producto.precio.toLocaleString('es-CL')}
+                  </p>
+                )}
+
+                <h2 className="detalle-precio">
+                  ${precioMostrar.toLocaleString('es-CL')}
+                </h2>
+
+                {esOferta && (
+                  <span className="badge bg-danger">
+                    Oferta especial
+                  </span>
+                )}
+              </div>
+
+              <div className="detalle-botones">
+                <Button
+                  variant="primary"
+                  onClick={manejarAgregarAlCarrito}
+                  disabled={producto.stock <= 0}
+                >
+                  {producto.stock > 0
+                    ? '🛒 Agregar al carrito'
+                    : 'Sin stock'}
+                </Button>
+
+                <Button
+                  as={Link}
+                  to="/productos"
+                  variant="outline-secondary"
+                >
+                  ← Volver a productos
+                </Button>
+              </div>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    </section>
   )
 }
 
