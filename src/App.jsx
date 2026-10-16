@@ -18,6 +18,9 @@ import Blog from './pages/Blog'
 import DetalleBlog from './pages/DetalleBlog'
 import AdminProductos from './pages/AdminProductos'
 import AdminUsuarios from './pages/AdminUsuarios'
+import Checkout from './pages/Checkout'
+import CompraExitosa from './pages/CompraExitosa'
+import CompraFallida from './pages/CompraFallida'
 
 function Login() {
   return <h1 className="text-center mt-5">Iniciar sesión</h1>
@@ -46,6 +49,9 @@ function App() {
           <Route path="*" element={<h1 className="text-center">Página no encontrada</h1>} />
           <Route path="/admin-productos" element={<AdminProductos />} />
           <Route path="/admin-usuarios" element={<AdminUsuarios />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/compra/exitosa" element={<CompraExitosa />} />
+          <Route path="/compra/fallida" element={<CompraFallida />} />
         </Routes>
       </main>
 

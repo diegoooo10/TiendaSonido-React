@@ -206,15 +206,14 @@ function Carrito() {
                   <strong>Total</strong>
                   <span>{formatoPrecio(totalPrecio)}</span>
                 </div>
-
-                <Button
-                  as={Link}
-                  to="/productos"
-                  variant="primary"
-                  className="boton-continuar-compra"
-                >
-                  Continuar compra
-                </Button>
+                  <Button
+                    as={Link}
+                    to="/checkout"
+                    className="boton-continuar-compra mt-2"
+                    disabled={carrito.length === 0}
+                  >
+                    Continuar compra
+                  </Button>
               </Card.Body>
             </Card>
           </Col>

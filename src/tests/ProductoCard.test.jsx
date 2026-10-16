@@ -1,8 +1,17 @@
-
-import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { describe, it, expect, vi } from 'vitest'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import ProductoCard from '../components/ProductoCard'
+
+const { agregarAlCarritoMock } = vi.hoisted(() => ({
+  agregarAlCarritoMock: vi.fn()
+}))
+
+vi.mock('../context/CarritoContext', () => ({
+  useCarrito: () => ({
+    agregarAlCarrito: agregarAlCarritoMock
+  })
+}))
 
 const productoPrueba = {
   codigo: 'GA001',
@@ -13,10 +22,10 @@ const productoPrueba = {
   imagen: '/img/guitarra.jpg'
 }
 
-function renderProducto() {
+function renderProducto(producto = productoPrueba) {
   return render(
     <MemoryRouter>
-      <ProductoCard producto={productoPrueba} />
+      <ProductoCard producto={producto} />
     </MemoryRouter>
   )
 }
@@ -38,12 +47,25 @@ describe('ProductoCard', () => {
     ).toBeTruthy()
   })
 
-  it('muestra el precio formateado en pesos chilenos', () => {
+  it('muestra el precio normal en pesos chilenos', () => {
     renderProducto()
 
     expect(
-      screen.getByText(/\$129\.990/)
+      screen.getByText('$129.990')
     ).toBeTruthy()
+  })
+
+  it('muestra el precio de oferta para MI001', () => {
+    renderProducto({
+      ...productoPrueba,
+      codigo: 'MI001',
+      nombre: 'Microfono Dinamico',
+      precio: 149990
+    })
+
+    expect(screen.getByText('$149.990')).toBeTruthy()
+    expect(screen.getByText('$129.990')).toBeTruthy()
+    expect(screen.getByText('Oferta especial')).toBeTruthy()
   })
 
   it('muestra el stock disponible', () => {
@@ -67,11 +89,37 @@ describe('ProductoCard', () => {
   it('incluye un enlace al detalle del producto', () => {
     renderProducto()
 
-    const enlace = screen.getByRole('button', {
-      name: 'Ver detalle'
+    const enlace = screen.getByRole('link', {
+      name: 'Ver detalle de Guitarra Acustica Folk'
     })
 
-    expect(enlace.tagName).toBe('A')
     expect(enlace.getAttribute('href')).toBe('/productos/GA001')
+  })
+
+  it('agrega el producto al carrito al pulsar el boton', () => {
+    agregarAlCarritoMock.mockClear()
+
+    renderProducto()
+
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: 'Agregar al carrito'
+      })
+    )
+
+    expect(agregarAlCarritoMock).toHaveBeenCalledWith(productoPrueba)
+  })
+
+  it('deshabilita el boton cuando no hay stock', () => {
+    renderProducto({
+      ...productoPrueba,
+      stock: 0
+    })
+
+    expect(
+      screen.getByRole('button', {
+        name: 'Sin stock'
+      }).disabled
+    ).toBe(true)
   })
 })
