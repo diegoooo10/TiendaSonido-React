@@ -22,6 +22,8 @@ import {
   validarFormularioUsuario
 } from '../validaciones/validacionesUsuarios'
 
+import { useNavigate } from 'react-router-dom'
+
 const formularioInicial = {
   run: '',
   nombre: '',
@@ -39,6 +41,7 @@ function AdminUsuarios() {
   const [mensaje, setMensaje] = useState('')
   const [tipoMensaje, setTipoMensaje] = useState('success')
   const [errores, setErrores] = useState({})
+  const navigate = useNavigate()
 
   function manejarCambio(evento) {
     const { name, value } = evento.target
@@ -156,14 +159,7 @@ function AdminUsuarios() {
         />
 
         <div className="d-flex justify-content-center gap-2">
-          <Button
-            variant="outline-primary"
-            onClick={() => {
-              window.location.href = '/admin-productos'
-            }}
-          >
-            Productos
-          </Button>
+          <Button variant="outline-primary" onClick={() => navigate('/admin-productos')}>Productos</Button>
 
           <Button variant="primary" type="button">
             Usuarios
