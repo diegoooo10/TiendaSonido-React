@@ -21,14 +21,14 @@ import AdminUsuarios from './pages/AdminUsuarios'
 import Checkout from './pages/Checkout'
 import CompraExitosa from './pages/CompraExitosa'
 import CompraFallida from './pages/CompraFallida'
-
-function Login() {
-  return <h1 className="text-center mt-5">Iniciar sesión</h1>
-}
+import Registro from './pages/Registro'
+import Login from './pages/Login'
+import { AuthProvider } from './context/AuthContext'
 
 function App() {
   return (
     <BrowserRouter>
+      <AuthProvider>
       <Header />
       <BarraNavegacion />
 
@@ -45,6 +45,7 @@ function App() {
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/carrito" element={<Carrito />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/registro" element={<Registro/>} />
           <Route path= "/nosotros" element={<Nosotros />} />          
           <Route path="*" element={<h1 className="text-center">Página no encontrada</h1>} />
           <Route path="/admin-productos" element={<AdminProductos />} />
@@ -56,6 +57,7 @@ function App() {
       </main>
 
        <Footer />
+      </AuthProvider>
     </BrowserRouter>
   )
 }

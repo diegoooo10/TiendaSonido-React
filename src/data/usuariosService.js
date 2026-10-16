@@ -132,4 +132,24 @@ export function eliminarUsuario(run) {
     exito: true,
     mensaje: 'Usuario eliminado correctamente.'
   }
+  
 }
+
+export function crearAdministradorPrueba() {
+  const existe = usuarios.some(usuario => usuario.correo === 'admin')
+
+  if (existe) return
+
+  crearUsuario({
+    run: 'ADMIN-DEMO',
+    nombre: 'Administrador',
+    apellidos: 'Sonido Vivo',
+    correo: 'admin',
+    fechaNacimiento: '2000-01-01',
+    direccion: 'Sonido Vivo',
+    tipoUsuario: 'Administrador',
+    contrasena: 'admin'
+  })
+}
+
+crearAdministradorPrueba()
