@@ -20,7 +20,7 @@ function Contacto(){
                     <div className="linea-decorativa"/>
                 </div>
 
-                <Row className="g-5">
+                <Row className="g-4 g-lg-5">
                     <Col xs={12} lg={5}>
                         <div className="contacto-info">
                             <h2>Información de contacto</h2>

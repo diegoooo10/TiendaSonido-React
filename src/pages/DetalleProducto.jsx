@@ -30,7 +30,7 @@ function DetalleProducto() {
   return (
     <section className="detalle-producto">
       <Container className="contenedor-detalle">
-        <Row className="align-items-center g-4 g-lg-5">
+        <Row className="align-items-center g-4 g-xxl-5">
           <Col xs={12} md={5}>
             <div className="detalle-imagen-contenedor">
               <img
@@ -43,7 +43,7 @@ function DetalleProducto() {
 
           <Col xs={12} md={7}>
             <div className="detalle-informacion">
-              <p className="detalle-categoria">
+              <p className="detalle-producto-categoria">
                 {producto.categoria}
               </p>
 
