@@ -26,13 +26,6 @@ function Nosotros(){
                     El catálogo actual tiene 340 referencias distintas.
                 </p>
 
-                <p>
-                    La tienda vende principalmente de forma presencial. Sin embargo,
-                    en los últimos tres años ha comenzado a recibir pedidos por
-                    WhatsApp e Instagram de clientes de otras ciudades, lo que genera
-                    una carga que el equipo no puede manejar con los métodos actuales.
-                </p>
-
                 <img src = "/img/logo.png" alt = "logo-sonido-vivo" className = "w-50 rounded d-block mx-auto my-5"/>
             </section>
         </Container>
