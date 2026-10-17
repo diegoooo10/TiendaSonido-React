@@ -116,7 +116,6 @@ function Carrito() {
                             <Button
                               variant="outline-secondary"
                               aria-label={`Disminuir cantidad de ${producto.nombre}`}
-                              disabled={producto.cantidad <= 1}
                               onClick={() =>
                                 actualizarCantidad(
                                   producto.codigo,

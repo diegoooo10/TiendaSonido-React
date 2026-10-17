@@ -1,7 +1,7 @@
 import { Navbar as BootstrapNavbar, Nav, Container, Badge } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { useCarrito } from "../context/CarritoContext";
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from "../context/AuthContext";
 
 function BarraNavegacion() {
   const { totalUnidades } = useCarrito();
@@ -12,7 +12,7 @@ function BarraNavegacion() {
   const { usuario, cerrarSesion } = useAuth();
 
   return (
-    <BootstrapNavbar bg="dark" variant="dark" expand="lg">
+    <BootstrapNavbar bg="dark" variant="dark" expand="xl">
       <Container>
         <BootstrapNavbar.Brand as={NavLink} to="/">
           <img
@@ -59,30 +59,51 @@ function BarraNavegacion() {
               className={enlaceActivo}
             >
               🛒 Carrito
-              <Badge bg="primary" className="ms-1">
+              <Badge bg="primary" className="contador-carrito">
                 {totalUnidades}
               </Badge>
             </Nav.Link>
 
             {usuario ? (
               <>
-                <BootstrapNavbar.Text className="me-3">Hola, {usuario.nombre}</BootstrapNavbar.Text>
-                <Nav.Link onClick={cerrarSesion}>Cerrar sesión</Nav.Link>
+                <BootstrapNavbar.Text className="me-3">
+                  Hola, {usuario.nombre}
+                </BootstrapNavbar.Text>
+
+                {usuario.tipoUsuario === "Administrador" && (
+                  <Nav.Link
+                    as={NavLink}
+                    to="/admin-productos"
+                    className={enlaceActivo}
+                  >
+                    Administración
+                  </Nav.Link>
+                )}
+
+                <Nav.Link onClick={cerrarSesion}>
+                  Cerrar sesión
+                </Nav.Link>
               </>
             ) : (
               <>
-                <Nav.Link as={NavLink} to="/login" className={enlaceActivo}>Iniciar sesión</Nav.Link>
-                <Nav.Link as={NavLink} to="/registro" className={enlaceActivo}>Registrarse</Nav.Link>
+                <Nav.Link
+                  as={NavLink}
+                  to="/login"
+                  className={enlaceActivo}
+                >
+                  Iniciar sesión
+                </Nav.Link>
+
+                <Nav.Link
+                  as={NavLink}
+                  to="/registro"
+                  className={enlaceActivo}
+                >
+                  Registrarse
+                </Nav.Link>
               </>
             )}
-
-            {usuario?.tipoUsuario === 'Administrador' && (
-              <Nav.Link as={NavLink} to="/admin-productos" className={enlaceActivo}>
-                Administración
-              </Nav.Link>
-            )}          
-            
-            </Nav>
+          </Nav>
         </BootstrapNavbar.Collapse>
       </Container>
     </BootstrapNavbar>

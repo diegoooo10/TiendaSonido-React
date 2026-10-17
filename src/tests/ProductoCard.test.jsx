@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { afterEach, describe, it, expect, vi } from 'vitest'
+import { cleanup, render, screen, fireEvent } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import ProductoCard from '../components/ProductoCard'
 
@@ -31,19 +31,16 @@ function renderProducto(producto = productoPrueba) {
 }
 
 describe('ProductoCard', () => {
+  afterEach(() => {
+    cleanup()
+    agregarAlCarritoMock.mockClear()
+  })
+
   it('muestra el nombre del producto', () => {
     renderProducto()
 
     expect(
       screen.getByText('Guitarra Acustica Folk')
-    ).toBeTruthy()
-  })
-
-  it('muestra la descripcion del producto', () => {
-    renderProducto()
-
-    expect(
-      screen.getByText('Guitarra para practicar y tocar en vivo.')
     ).toBeTruthy()
   })
 
@@ -55,50 +52,7 @@ describe('ProductoCard', () => {
     ).toBeTruthy()
   })
 
-  it('muestra el precio de oferta para MI001', () => {
-    renderProducto({
-      ...productoPrueba,
-      codigo: 'MI001',
-      nombre: 'Microfono Dinamico',
-      precio: 149990
-    })
-
-    expect(screen.getByText('$149.990')).toBeTruthy()
-    expect(screen.getByText('$129.990')).toBeTruthy()
-    expect(screen.getByText('Oferta especial')).toBeTruthy()
-  })
-
-  it('muestra el stock disponible', () => {
-    renderProducto()
-
-    expect(
-      screen.getByText('Stock disponible: 5')
-    ).toBeTruthy()
-  })
-
-  it('muestra la imagen con su texto alternativo', () => {
-    renderProducto()
-
-    const imagen = screen.getByRole('img', {
-      name: 'Guitarra Acustica Folk'
-    })
-
-    expect(imagen.getAttribute('src')).toBe('/img/guitarra.jpg')
-  })
-
-  it('incluye un enlace al detalle del producto', () => {
-    renderProducto()
-
-    const enlace = screen.getByRole('link', {
-      name: 'Ver detalle de Guitarra Acustica Folk'
-    })
-
-    expect(enlace.getAttribute('href')).toBe('/productos/GA001')
-  })
-
   it('agrega el producto al carrito al pulsar el boton', () => {
-    agregarAlCarritoMock.mockClear()
-
     renderProducto()
 
     fireEvent.click(

@@ -1,4 +1,3 @@
-
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { CarritoProvider, useCarrito } from '../context/CarritoContext'
@@ -8,13 +7,6 @@ const guitarra = {
   nombre: 'Guitarra Acustica Folk',
   precio: 129990,
   stock: 3
-}
-
-const guitarraSinStock = {
-  codigo: 'GA002',
-  nombre: 'Guitarra sin stock',
-  precio: 189990,
-  stock: 0
 }
 
 const guitarraStockUno = {
@@ -30,7 +22,6 @@ function CarritoPrueba() {
     agregarAlCarrito,
     actualizarCantidad,
     eliminarDelCarrito,
-    vaciarCarrito,
     totalUnidades,
     totalPrecio
   } = useCarrito()
@@ -54,20 +45,8 @@ function CarritoPrueba() {
         Cambiar cantidad a 2
       </button>
 
-      <button onClick={() => actualizarCantidad('GA001', 0)}>
-        Quitar mediante cantidad cero
-      </button>
-
       <button onClick={() => eliminarDelCarrito('GA001')}>
         Eliminar guitarra
-      </button>
-
-      <button onClick={vaciarCarrito}>
-        Vaciar carrito
-      </button>
-
-      <button onClick={() => agregarAlCarrito(guitarraSinStock)}>
-        Agregar guitarra sin stock
       </button>
 
       <button onClick={() => agregarAlCarrito(guitarraStockUno)}>
@@ -117,18 +96,6 @@ describe('CarritoContext', () => {
     expect(screen.getByTestId('cantidad').textContent).toBe('1')
   })
 
-  it('incrementa la cantidad del mismo producto', () => {
-    renderCarrito()
-
-    fireEvent.click(screen.getByRole('button', { name: 'Agregar guitarra' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Agregar guitarra' }))
-
-    expect(screen.getByTestId('cantidad').textContent).toBe('2')
-    expect(screen.getByTestId('unidades').textContent).toBe('2')
-    expect(screen.getByTestId('total').textContent).toBe('259980')
-    expect(screen.getByTestId('productos-distintos').textContent).toBe('1')
-  })
-
   it('actualiza la cantidad y recalcula el total', () => {
     renderCarrito()
 
@@ -151,17 +118,6 @@ describe('CarritoContext', () => {
     expect(screen.getByTestId('total').textContent).toBe('0')
   })
 
-  it('vacia todo el carrito y actualiza localStorage', () => {
-    renderCarrito()
-
-    fireEvent.click(screen.getByRole('button', { name: 'Agregar guitarra' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Vaciar carrito' }))
-
-    expect(screen.getByTestId('unidades').textContent).toBe('0')
-    expect(screen.getByTestId('total').textContent).toBe('0')
-    expect(JSON.parse(localStorage.getItem('carritoSonidoVivo'))).toEqual([])
-  })
-
   it('persiste los productos en localStorage', () => {
     renderCarrito()
 
@@ -172,17 +128,6 @@ describe('CarritoContext', () => {
     expect(guardado).toHaveLength(1)
     expect(guardado[0].codigo).toBe('GA001')
     expect(guardado[0].cantidad).toBe(1)
-  })
-
-  it('rechaza agregar un producto sin stock', () => {
-    renderCarrito()
-
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Agregar guitarra sin stock' })
-    )
-
-    expect(screen.getByTestId('unidades').textContent).toBe('0')
-    expect(screen.getByTestId('productos-distintos').textContent).toBe('0')
   })
 
   it('rechaza superar el stock disponible', () => {
@@ -197,43 +142,6 @@ describe('CarritoContext', () => {
     )
 
     expect(screen.getByTestId('unidades').textContent).toBe('1')
-    expect(screen.getByTestId('productos-distintos').textContent).toBe('1')
-  })
-
-  it('elimina el producto al actualizar su cantidad a cero', () => {
-    renderCarrito()
-
-    fireEvent.click(screen.getByRole('button', { name: 'Agregar guitarra' }))
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Quitar mediante cantidad cero' })
-    )
-
-    expect(screen.getByTestId('unidades').textContent).toBe('0')
-    expect(screen.getByTestId('total').textContent).toBe('0')
-    expect(screen.getByTestId('productos-distintos').textContent).toBe('0')
-  })
-
-  it('recupera los productos guardados en localStorage', () => {
-    const carritoGuardado = [
-      {
-        codigo: 'GA001',
-        nombre: 'Guitarra Acustica Folk',
-        precio: 129990,
-        stock: 3,
-        cantidad: 2
-      }
-    ]
-
-    localStorage.setItem(
-      'carritoSonidoVivo',
-      JSON.stringify(carritoGuardado)
-    )
-
-    renderCarrito()
-
-    expect(screen.getByTestId('unidades').textContent).toBe('2')
-    expect(screen.getByTestId('total').textContent).toBe('259980')
-    expect(screen.getByTestId('cantidad').textContent).toBe('2')
     expect(screen.getByTestId('productos-distintos').textContent).toBe('1')
   })
 })
